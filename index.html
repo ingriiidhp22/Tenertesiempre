@@ -4,19 +4,28 @@
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <script>
-  document.body.addEventListener('click', function () {
-    const video = document.querySelector('#video1');
-    if (video.paused) {
-      video.play();
-    }
-  AFRAME.scenes[0].addEventListener("targetFound", (e) => {
-    document.querySelector("#video1").play();
-  });
-  AFRAME.scenes[0].addEventListener("targetLost", (e) => {
-    document.querySelector("#video1").pause();
-  });
-</script>
+      
+      document.addEventListener('DOMContentLoaded', () => {
+        const video = document.querySelector('#video1');
+        const scene = document.querySelector('a-scene');
 
+        document.body.addEventListener('click', () => {
+          if (video.paused) {
+            video.play();
+          }
+        });
+
+        scene.addEventListener('renderstart', () => {
+          scene.addEventListener('targetFound', () => {
+            video.play();
+          });
+
+          scene.addEventListener('targetLost', () => {
+            video.pause();
+          });
+        });
+      });
+    </script>
   </head>
   <body>
     <a-scene
@@ -25,15 +34,23 @@
       device-orientation-permission-ui="enabled: false"
     >
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+      
       <a-assets>
-  <video id="video1" src="videomiel.MP4" autoplay loop muted playsinline crossorigin="anonymous"></video>
-</a-assets>
+        <video id="video1" src="videomiel.MP4" autoplay loop muted playsinline crossorigin="anonymous"></video>
+      </a-assets>
 
-<a-entity mindar-image-target="targetIndex: 0">
-  <a-plane position="0 0 0.1" rotation="0 0 0" width="2" height="1.6" material="shader: flat; src: #video1"></a-plane>
-</a-entity>
-  </a-scene>
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-plane 
+          position="0 0 0.1" 
+          rotation="0 0 0" 
+          width="2" 
+          height="1.6" 
+          material="shader: flat; src: #video1">
+        </a-plane>
+      </a-entity>
+    </a-scene>
   </body>
 </html>
+
 
 
