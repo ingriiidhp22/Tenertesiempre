@@ -3,6 +3,20 @@
   <head>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <script>
+  document.body.addEventListener('click', function () {
+    const video = document.querySelector('#video1');
+    if (video.paused) {
+      video.play();
+    }
+  AFRAME.scenes[0].addEventListener("targetFound", (e) => {
+    document.querySelector("#video1").play();
+  });
+  AFRAME.scenes[0].addEventListener("targetLost", (e) => {
+    document.querySelector("#video1").pause();
+  });
+</script>
+
   </head>
   <body>
     <a-scene
@@ -21,3 +35,5 @@
   </a-scene>
   </body>
 </html>
+
+
